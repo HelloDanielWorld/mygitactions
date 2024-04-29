@@ -1,0 +1,23 @@
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword  # Change this to a strong password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: myuserpassword  # Change this to a strong password
+    volumes:
+      - /mnt/data_disk:/var/lib/mysql  # Replace with your actual mount point
+    restart: always 
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"  # Maps port 8080 on your host to port 80 (default) in phpMyAdmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: myuser
+      PMA_PASSWORD: myuserpassword  # Same password as defined in mysql service
+    restart: always
